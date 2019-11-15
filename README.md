@@ -3,12 +3,12 @@
 api could have different versions, v1, v2, mock, offline, etc, but they all share the same interface of the api, event they may vary from some other prospects.
 
 ```js
-nscAPI.inteface([{
+const myAPI = nscAPI.create([{
   group: 'project',
-  name: 'getProject'
+  apis: ['', '']
 }])
 
-nscAPI.version('v1', [{
+myAPI.version('v1', [{
   group: 'project',
   name: 'getProject', // or 'project.getProject'
   method: 'get',
@@ -29,13 +29,13 @@ You can easily define another version of api, inside of which, you can invoke an
 All the versions of api can be easily inspected.
 
 ```js
-nscAPI.intercept({ version: 'v1', group: 'project', name: 'getProject' }, {
+myAPI.intercept({ version: 'v1', group: 'project', name: 'getProject' }, {
   beforeRequestSend,
   onRequestError,
   onResponse,
   onResponseError
 })
 
-nscAPI.v1 // this is actually an instance of axios
-nscAPI.v1.interceptors.request.eject(...)
+myAPI.v1 // this is actually an instance of axios
+myAPI.v1.interceptors.request.eject(...)
 ```
