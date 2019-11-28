@@ -22,6 +22,30 @@ myAPI.version('v1', [{
   headers,
   ...otherAxiosOptions
 })
+
+myAPI.define('v1.project.get', implementation)
+myAPI.define('mock.project.get', implementation)
+myAPI.define('v2.project.get', function (args) {
+  //return myAPI.v1.project.get()
+  return this.axios({})
+})
+
+myAPI.config('v1', config)
+myAPI.config('v1.project', config)
+myAPI.config('v1.project.get', config)
+myAPI.config('mock', {
+  baseUrl: 'http://mock.com'
+})
+myAPI.config('v1', {
+  baseUrl: 'http://v1.com'
+})
+
+myAPI.intercept('v1', interceptor')
+myAPI.intercept('v1.project', interceptor')
+myAPI.intercept('v1.project.get', interceptor')
+
+myAPI.v1.project.get()
+myAPI.mock.project.get()
 ```
 
 You can easily define another version of api, inside of which, you can invoke any other version of api to achieve a mixed api version.
