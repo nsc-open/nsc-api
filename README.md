@@ -1,6 +1,6 @@
 ### concept
 
-<version>.<group>.<method>
+<version>.<group>.<name>
 
 ### define
 ```js
@@ -18,8 +18,7 @@ nscAPI.define('smart.user.create', function (args) {
     return nscAPI.offline.user.create(args)
   }
 })
-nscAPI.define('smart.*.*', function (args) {
-  const { group, name } = param
+nscAPI.define('smart.*.*', function (args, { group, name }) {
   const version = online ? nscAPI.online : nscAPI.offline
   return version[group][name](args)
 })
@@ -27,6 +26,8 @@ nscAPI.define('smart.*.*', function (args) {
 
 ### usage
 ```js
+nscAPI.call('v1.user.get', options)
+
 nscAPI('v1.user.get', options)
 nscAPI('v2.product.create', options)
 nscAPI.v1.user.get(options)

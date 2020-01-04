@@ -2,40 +2,43 @@
   'use strict'
   /* istanbul ignore next */
   if (typeof exports === 'object') {
-      // CommonJS
-      module.exports = factory();
+    module.exports = factory() // CommonJS
   } else if (typeof define === 'function' && define.amd) {
-      // AMD. Register as an anonymous module.
-      define(factory)
+    define(factory) // AMD. Register as an anonymous module.
   } else {
-      // Browser globals
-      root.nscAPI = factory()
+    root.nscAPI = factory() // Browser globals
   }
 })(this, function () {
   function factory () {
-    
-    /**
-     * 
-     * @param {Object} def { group, apis }
-     */
-    function parseDef (def) {
+    function define (exp, def) {
+
+    }
+    function config () {
+
+    }
+    function intercept () {
+
+    }
+    function call (exp) {
 
     }
 
-    /**
-     * @param {Array} defs [{ group, apis: []}]
-     */
-    function create (defs) {
+    function _parseExp (exp) {
+      var items = exp.split('.')
       return {
-        version: version
+        version: items[0],
+        group: items[1],
+        name: items[2]
       }
     }
-    
-    function version (versionName, impl) {
 
-    }
+    var nscAPI = call
+    nscAPI.define = define
+    nscAPI.config = config
+    nscAPI.intercept = intercept
+    nscAPI.call = call
 
-    return { create: create }
+    return nscAPI
   }
   return factory
 })
