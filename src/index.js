@@ -12,9 +12,30 @@
       root.nscAPI = factory()
   }
 })(this, function () {
-  var nscAPI = {}
   function factory () {
+    
+    /**
+     * 
+     * @param {Object} def { group, apis }
+     */
+    function parseDef (def) {
 
+    }
+
+    /**
+     * @param {Array} defs [{ group, apis: []}]
+     */
+    function create (defs) {
+      return {
+        version: version
+      }
+    }
+    
+    function version (versionName, impl) {
+
+    }
+
+    return { create: create }
   }
   return factory
 })

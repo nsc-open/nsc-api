@@ -1,35 +1,42 @@
-## api versions
+### concept
 
-api could have different versions, v1, v2, mock, offline, etc, but they all share the same interface of the api, event they may vary from some other prospects.
+<version>.<group>.<method>
 
+### define
 ```js
-const myAPI = nscAPI.create([{
-  group: 'project',
-  apis: ['', '']
-}])
-
-myAPI.version('v1', [{
-  group: 'project',
-  name: 'getProject', // or 'project.getProject'
-  method: 'get',
-  url: '/api/projects/:id'
-}], {
-  baseURL: '/',
-  transformRequest,
-  transformResponse (r) {
-    return r.data.data
-  },
-  headers,
-  ...otherAxiosOptions
+nscAPI.define('v1.user.get', definition)
+nscAPI.define('v2.product.create', definition)
+nscAPI.define('v3.user.get', function (args) {
+  return nscAPI.v1.user.get(args)
 })
-
-myAPI.define('v1.project.get', implementation)
-myAPI.define('mock.project.get', implementation)
-myAPI.define('v2.project.get', function (args) {
-  //return myAPI.v1.project.get()
-  return this.axios({})
+nscAPI.define('offline.user.create', definition)
+nscAPI.define('online.user.create', definition)
+nscAPI.define('smart.user.create', function (args) {
+  if (online) {
+    return nscAPI.online.user.create(args)
+  } else {
+    return nscAPI.offline.user.create(args)
+  }
 })
+nscAPI.define('smart.*.*', function (args) {
+  const { group, name } = param
+  const version = online ? nscAPI.online : nscAPI.offline
+  return version[group][name](args)
+})
+```
 
+### usage
+```js
+nscAPI('v1.user.get', options)
+nscAPI('v2.product.create', options)
+nscAPI.v1.user.get(options)
+
+const { v1: v1API } = nscAPI
+v1API.user.get(options)
+```
+
+### config
+```js
 myAPI.config('v1', config)
 myAPI.config('v1.project', config)
 myAPI.config('v1.project.get', config)
@@ -39,27 +46,15 @@ myAPI.config('mock', {
 myAPI.config('v1', {
   baseUrl: 'http://v1.com'
 })
-
-myAPI.intercept('v1', interceptor')
-myAPI.intercept('v1.project', interceptor')
-myAPI.intercept('v1.project.get', interceptor')
-
-myAPI.v1.project.get()
-myAPI.mock.project.get()
 ```
 
-You can easily define another version of api, inside of which, you can invoke any other version of api to achieve a mixed api version.
-
-All the versions of api can be easily inspected.
-
+### intercept
 ```js
-myAPI.intercept({ version: 'v1', group: 'project', name: 'getProject' }, {
-  beforeRequestSend,
-  onRequestError,
-  onResponse,
-  onResponseError
-})
-
-myAPI.v1 // this is actually an instance of axios
-myAPI.v1.interceptors.request.eject(...)
+myAPI.intercept('v1', interceptor)
+myAPI.intercept('v1.project', interceptor)
+myAPI.intercept('v1.project.get', interceptor)
 ```
+
+
+### multi instances
+already has versions, no need to have different instances.
