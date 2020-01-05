@@ -4,8 +4,15 @@
 
 ### define
 ```js
-nscAPI.define('v1.user.get', definition)
-nscAPI.define('v2.product.create', definition)
+nscAPI.define('v1.user.simpleList', {
+  method: 'get',
+  url: `/v1/api/users?fields=id,name`
+})
+nscAPI.define('v2.product.create', product => ({
+  method: 'post',
+  url: `/v2/products`,
+  data: product
+}))
 nscAPI.define('v3.user.get', function (args) {
   return nscAPI.v1.user.get(args)
 })
