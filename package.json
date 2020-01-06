@@ -1,0 +1,24 @@
+{
+  "name": "nsc-api",
+  "version": "0.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsc-open/nsc-api.git"
+  },
+  "keywords": [
+    "nsc-api",
+    "axios",
+    "nsc"
+  ],
+  "author": "ygjack414@hotmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nsc-open/nsc-api/issues"
+  },
+  "homepage": "https://github.com/nsc-open/nsc-api#readme"
+}
